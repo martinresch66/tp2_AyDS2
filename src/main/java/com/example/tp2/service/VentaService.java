@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.example.tp2.dto.DescuentoDTO;
 import com.example.tp2.dto.EstadisticasDTO;
+import com.example.tp2.dto.VentaConDescuentoDTO;
 import com.example.tp2.dto.VentaDTO;
 
 /* esta capa es la encargada de la
@@ -111,5 +113,42 @@ solo recibimos objetos de Java, hacemos los
 
         return productoMasVendido;
     }
+//ENDPOINT 2: POST /api/ventas/aplicar_descunto
+public DescuentoDTO calcularDescuento(List<VentaDTO> ventas,double descuento){
+    // Control de seguridad por si la lista viene vacía o nula
+    if (ventas == null || ventas.isEmpty()) {
+        return new DescuentoDTO(new java.util.ArrayList<>(),0);
+    }
+
+    // 1. Inicializamos la lista donde guardaremos los resultados y el acumulador del total
+    List<VentaConDescuentoDTO> ventasConDescuento = new java.util.ArrayList<>();
+    double totalConDescuento=0;
+
+    for(int i=0;i<ventas.size();i++){
+        VentaDTO v=ventas.get(i);
+    
+    //calculamos el subtotal de cada venta(cantidad*precio)
+    double subtotalOriginal=v.getCantidad()*v.getPrecioUnitario();
+
+    //calculamos el descuento por venta monto-(monto*descuento/100)
+    double montoConDescuento = subtotalOriginal - ( subtotalOriginal * descuento / 100);
+
+    //creamos el objeto VentaConDescuento(contiene producto,cantidad,precioUnintario y montoConDescuento) 
+    VentaConDescuentoDTO ventaDesc = new VentaConDescuentoDTO();
+    ventaDesc.setCantidad(v.getCantidad());
+    ventaDesc.setMontoConDescuento(montoConDescuento);
+    ventaDesc.setPrecioUnitario(v.getPrecioUnitario()); 
+    ventaDesc.setProducto(v.getProducto());
+
+    //agregamos este objeto a la lista de ventas con descuento
+    ventasConDescuento.add(ventaDesc);
+    //obtenemos el monto total de descueto
+    totalConDescuento = totalConDescuento + montoConDescuento;
+
+    }
+
+   return new DescuentoDTO(ventasConDescuento, totalConDescuento);
+}
+
 }
 
