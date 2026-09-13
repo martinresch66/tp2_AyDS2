@@ -7,6 +7,7 @@ public class DescuentoDTO {
     private List<VentaConDescuentoDTO> ventasConDescuento;
     private double totalConDescuento;
 
+
      // Constructor con todos los parámetros para llenarlo desde el Service
      public  DescuentoDTO(List<VentaConDescuentoDTO>  ventasConDescuento,double totalConDescuento){
         this.totalConDescuento=totalConDescuento;

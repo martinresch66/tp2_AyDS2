@@ -47,7 +47,7 @@ public class VentaController {
             "Estadísticas calculadas con éxito",
             estadisticas);
     
-        // 3. onstruye y devuelve la respuesta HTTP oficial hacia
+        // 3. construye y devuelve la respuesta HTTP oficial hacia
         //  el cliente, asegurando que viaje con el código 
         // de estado 200 OK (que significa que todo salió 
         // bien) y metiendo tu objeto response dentro del cuerpo (body) en formato JSON.

@@ -9,6 +9,7 @@ public class EstadisticasDTO {
     private VentaDTO ventaMenor;
     private String productoMasVendido;
 
+
     // Constructor con todos los parámetros para llenarlo desde el Service
     public EstadisticasDTO(double totalFacturado, int cantidadVentas, double ticketPromedio, 
                            VentaDTO ventaMayor, VentaDTO ventaMenor, String productoMasVendido) {
