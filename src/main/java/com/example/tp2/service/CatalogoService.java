@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.Comparator;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.example.tp2.domain.Producto;
+import com.example.tp2.dto.NuevoProductoDTO;
 
 import io.swagger.v3.oas.annotations.servers.Server;
 
@@ -50,7 +54,7 @@ public class CatalogoService {
 //ENDPOINT 3: GET /api/catalogo/ordenar
     public List<Producto> ordenarProductos(String criterio, String orden){
         List<Producto> listaOrdenada = new ArrayList<>(productos);
-        //asignamos valores por default si los paramteros vienen vacios(/api/catalogo/ordenar/criterio="") o nullos(/api/catalogo/ordenar)
+//1. Asignamos valores por default si los paramteros vienen vacios(/api/catalogo/ordenar/criterio="") o nullos(/api/catalogo/ordenar)
         if(criterio == null || criterio == ""){
             criterio = "precio";
         }
@@ -58,24 +62,79 @@ public class CatalogoService {
             orden= "asc";
         }
 
-        Comparator<Producto> comparador;
+// Declaramos el comparador inicializándolo por defecto con el precio
+        Comparator<Producto> comparador = Comparator.comparing(Producto::getPrecio);
 
+// 2. Validamos los criterios 
         if (criterio.equalsIgnoreCase("nombre")) {
             comparador = Comparator.comparing(Producto::getNombre);
-        } else {
-            comparador = Comparator.comparing(Producto::getPrecio);//vas a comparar productos (<Producto>). La regla que vas a usar para ordenarlos es mirar el precio de cada uno (Producto::getPrecio)
-        }
+        } 
 
+ // 3. Validamos el sentido del orden
         if (orden.equalsIgnoreCase("desc")) {
             comparador = comparador.reversed();
         }
+       
 
         return listaOrdenada.stream()
                 .sorted(comparador)//recorre la lista mediante el Stream y ordena físicamente los elementos
                 .toList();//el resultado ordenado se empaqueta en una lista
 
-
     }
 
-    
+//ENDPOINT 4: POST /api/catalogo
+    public Producto agregarProducto(NuevoProductoDTO productoDTO){
+        // Generamos un ID autoincremental basado en el tamaño actual de la lista
+        long nuevoId = productos.size() + 1;
+        // Mapeamos el DTO a nuestra entidad Producto
+        Producto nuevoProducto = new Producto(
+            nuevoId,
+            productoDTO.getNombre(),
+            productoDTO.getCategoria(),
+            productoDTO.getPrecio(),
+            productoDTO.getStock()
+        );
+        // Lo agregamos a la colección en memoria
+        productos.add(nuevoProducto);
+
+        return nuevoProducto;
+    }
+
+//ENDPOINT 5: PUT /api/catalogo/{id}/stock?cantidad=5
+
+    public Producto actualizartock(long id , int cantidad){
+        Producto producto = productos.stream()
+        .filter(p->p.getId() == id)
+        //como a lo sumo encuentra un id toma ese resultadoy lo envuelve en algo llamado un Optional (una cajita que puede contener el producto o venir vacía si no encontró a nadie)
+        .findFirst()
+         //lanza esta excepcion para ser capturada por GlobalExceptionHandler.java
+        .orElseThrow(() -> new ResponseStatusException(//throw interrumpe la ejecución normal del método actualizarStock
+            HttpStatus.NOT_FOUND, "Producto con id " + id + " no encontrado"));//si el optional tiene el producto,queda guardado en al variable producto, si no lanza excepcion
+
+        int nuevoStock = producto.getStock() + cantidad;
+
+        if(nuevoStock < 0){
+            throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST, "El stock actual no puede quedar negativo" + nuevoStock);
+        }
+
+        producto.setStock(nuevoStock);
+        return producto;
+        
+    }
+
+//ENDPOINT 6:/api/catalogo/{id}
+    public void eliminarProducto(long id){
+         Producto producto = productos.stream()
+        .filter(p->p.getId() == id)
+        //como a lo sumo encuentra un id toma ese resultado y lo envuelve en algo llamado un Optional (una cajita que puede contener el producto o venir vacía si no encontró a nadie)
+        .findFirst()
+         //lanza esta excepcion para ser capturada por GlobalExceptionHandler.java
+        .orElseThrow(() -> new ResponseStatusException(
+            HttpStatus.NOT_FOUND, "Producto con id " + id + " no encontrado"));
+
+        productos.remove(producto);
+        
+    }
+ 
 }

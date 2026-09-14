@@ -1,4 +1,4 @@
-/*package com.example.tp2.exception;
+package com.example.tp2.exception;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 /*Le avisa a Spring Boot que esta clase va a estar escuchando globalmente todo lo que pase en los controladores.
 Gracias a esto, no tenemos que escribir código de manejo de errores en cada endpoint. */
-/*@RestControllerAdvice 
+@RestControllerAdvice 
 public class GlobalExceptionHandler {
 
     // =========================================================================
@@ -67,6 +67,7 @@ public class GlobalExceptionHandler {
     // MÉTODO 2: Atrapa excepciones HTTP controladas
     // Por ejemplo: cuando buscas un producto por ID y no existe, lanzando un 404.
     // =========================================================================
+   //cualquier excepción de tipo ResponseStatusException que se lance en cualquier controller, atrapala aca
     @ExceptionHandler(ResponseStatusException.class)
     public ResponseEntity<ApiResponse<Object>> handleResponseStatusException(ResponseStatusException ex) {
         
@@ -100,4 +101,3 @@ public class GlobalExceptionHandler {
     }
     
 }
-*/
