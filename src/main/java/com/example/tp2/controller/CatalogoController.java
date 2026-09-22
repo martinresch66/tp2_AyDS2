@@ -7,11 +7,15 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 import com.example.tp2.dto.ApiResponse;
 import com.example.tp2.dto.NuevoProductoDTO;
 import com.example.tp2.domain.Producto;
 import com.example.tp2.service.CatalogoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +30,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api/catalogo")/*Define la ruta base para todos los endpoints que estén dentro de esta clase.*/ 
 public class CatalogoController {
 
+    
     private final CatalogoService catalogoService;
-
+/*INYECCION DE DEPENDENCIA */
     public CatalogoController(CatalogoService catalogoService){
         this.catalogoService = catalogoService;
     }
 
     //ENDPOINT 1: GET /api/catalogo -> Devuelve todos los productos
+    @Operation (summary = "Devolver Productos",description = "devuelve todos los productos que estan en el constructor")
     @GetMapping
     public ResponseEntity<ApiResponse<List<Producto>>> obtenerTodos() {
         List<Producto> lista = catalogoService.obtenerTodos();
@@ -46,6 +52,7 @@ public class CatalogoController {
     }
 
     // ENDPOINT 2: GET /api/catalogo/buscar -> Filtra por categoría, precioMin y/o precioMax
+    @Operation (summary = "Filtrar Productos",description = "Filtra productos por precio minimo,precio maximo y categoria, todas opcionales")
     @GetMapping("/buscar")
     public ResponseEntity<ApiResponse<List<Producto>>> buscarProductos(
         /*El @RequestParam es la anotación que le indica a Spring Boot: "busca en la URL de la petición web un parámetro que venga después del signo de interrogación (?) y asígnale su valor a esta variable de Java" */  
@@ -65,31 +72,23 @@ public class CatalogoController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     //ENDPOINT 3: GET /api/catalogo/ordenar-> Ordena el catálogo según criterio y orden
+    @Operation (summary = "Ordenar Productos",description = "ordena productos a traves del campo categoria y puedes elegir orden asc o desc")
     @GetMapping("/ordenar")
     public ResponseEntity<ApiResponse<List<Producto>>> ordenarProductos(
         @RequestParam (required = false) String criterio,
         @RequestParam (required = false) String orden){
         
-        // 1. Si mandaron un criterio pero NO es ninguno de los dos válidos, rechazamos con 400
+        // 1. Si mandaron un criterio pero NO es ninguno de los dos válidos, rechazamos con 400(osea delegamos trabajo a GlobalExceptionHanlder.java)
         if (criterio != null && !criterio.equalsIgnoreCase("nombre") && !criterio.equalsIgnoreCase("precio")) {
-            
-            ApiResponse<List<Producto>> responseError = new ApiResponse<>(
-                HttpStatus.BAD_REQUEST.value(),
-                "Criterio de ordenamiento inválido. Use 'nombre' o 'precio'.",
-                null
-            );
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
+            throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST, "Criterio de ordenamiento inválido. Use 'nombre' o 'precio'.");
         }
 
-        // 2. Si mandaron un orden pero NO es ninguno de los dos válidos, rechazamos con 400
+        // 2. Si mandaron un orden pero NO es ninguno de los dos válidos, rechazamos con 400(osea delegamos trabajo a GlobalExceptionHanlder.java)
         if ( orden != null && !orden.equalsIgnoreCase("asc") && !orden.equalsIgnoreCase("desc")) {
             
-            ApiResponse<List<Producto>> responseError = new ApiResponse<>(
-                HttpStatus.BAD_REQUEST.value(),
-                "Orden inválido. Use 'asc' o 'desc'.",
-                null
-            );
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseError);
+           throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST, "Orden inválido. Use 'asc' o 'desc'.");
         }
 
         // 3. Si todo está bien, llamamos al servicio normalmente
@@ -107,6 +106,7 @@ public class CatalogoController {
     }
 
     //ENDPOINT 4: POST /api/catalogo
+    @Operation (summary = "Insertar producto",description = "Insertar productos a la lista de productos")
     @PostMapping
     public ResponseEntity<ApiResponse<Producto>> agregarProducto(@Valid @RequestBody NuevoProductoDTO productoDTO){
         // Llamamos al servicio para que procese el guardado
@@ -123,6 +123,7 @@ public class CatalogoController {
     }
 
 //ENDPOINT 5: PUT /api/catalogo/{id}/stock?cantidad=5
+    @Operation (summary = "Actualizar stock",description = "Actualiza el stock siempre que se pueda")
     @PutMapping("/{id}/stock") 
     public ResponseEntity<ApiResponse<Producto>> actualizarStock(
         @PathVariable long id,//Extrae un valor que está incrustado directamente dentro de la ruta (URL) de la peticion
@@ -143,7 +144,7 @@ public class CatalogoController {
     }
 
 //ENDPOINT 6:/api/catalogo/{id}
-
+    @Operation (summary = "Eliminar Productos",description = "Elimina un producto existente en el catalogo")
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Void>> eliminarProducto(@PathVariable long id) {
         catalogoService.eliminarProducto(id);

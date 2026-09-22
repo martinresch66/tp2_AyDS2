@@ -38,6 +38,7 @@ public class CatalogoService {
     }
 
 //ENDPOINT 2: GET /api/catalogo/buscar?-> Filtra por categoría, precio mínimo y/o precio máximo usando Streams
+    
     public List<Producto> buscarProductos( String categoria , Double precioMin , Double precioMax ){
         return productos.stream()//Transforma tu lista normal de Java en un flujo de datos (Stream) para poder aplicarle operaciones funcionales
         // Filtra por categoría solo si el parámetro no es nulo ni está vacío
@@ -115,7 +116,7 @@ public class CatalogoService {
 
         if(nuevoStock < 0){
             throw new ResponseStatusException(
-            HttpStatus.BAD_REQUEST, "El stock actual no puede quedar negativo" + nuevoStock);
+            HttpStatus.BAD_REQUEST, "El stock actual no puede quedar negativo" );
         }
 
         producto.setStock(nuevoStock);
