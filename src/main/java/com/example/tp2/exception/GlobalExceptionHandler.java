@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+
 /*Le avisa a Spring Boot que esta clase va a estar escuchando globalmente todo lo que pase en los controladores.
 Gracias a esto, no tenemos que escribir código de manejo de errores en cada endpoint. */
 @RestControllerAdvice 
@@ -84,7 +85,7 @@ public class GlobalExceptionHandler {
 
     // =========================================================================
     // MÉTODO 3: Red de seguridad para cualquier otro error imprevisto
-    // Si ocurre un fallo inesperado en el servidor, esto evita que la app crashee feo.
+    // Si ocurre un fallo inesperado en el servidor, esto evita que la app se rompa.
     // =========================================================================
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ApiResponse<Object>> handleGeneralException(Exception ex) {
@@ -99,5 +100,23 @@ public class GlobalExceptionHandler {
         // Devolvemos la respuesta asegurando el formato estándar con un código 500.
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
+
+    // =========================================================================
+    // MÉTODO 4: excepcion para email duplicado en ejercicio 4
+    // =========================================================================
+
+@ExceptionHandler(EmailDuplicadoException.class)
+public ResponseEntity<ApiResponse<Object>> handleEmailDuplicado(EmailDuplicadoException ex) {
+
+    // Armamos la respuesta estándar: 400, el mensaje de la excepción, y data en null
+    ApiResponse<Object> response = new ApiResponse<>(
+        HttpStatus.BAD_REQUEST.value(), // 400
+        ex.getMessage(),                // "El email ya está registrado" (viene del throw en el Service)
+        null                             // no hay datos que devolver en un error
+    );
+
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+}
+
     
 }
