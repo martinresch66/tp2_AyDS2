@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 
 import com.example.tp2.repository.ClienteRepository;
-import com.example.tp2.domain.Cliente;
-import com.example.tp2.dto.ClienteDTO;
+import com.example.tp2.domain.ej4y5.Cliente;
+import com.example.tp2.dto.ej4y5.ClienteDTO;
 import com.example.tp2.exception.EmailDuplicadoException;
 
 @Service 

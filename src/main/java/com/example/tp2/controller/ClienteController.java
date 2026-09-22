@@ -1,7 +1,7 @@
 package com.example.tp2.controller;
 
-import com.example.tp2.domain.Cliente;
-import com.example.tp2.dto.ClienteDTO;
+import com.example.tp2.domain.ej4y5.Cliente;
+import com.example.tp2.dto.ej4y5.ClienteDTO;
 import com.example.tp2.service.ClienteService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

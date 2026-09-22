@@ -1,4 +1,4 @@
-package com.example.tp2.domain;
+package com.example.tp2.domain.ej4y5;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;

@@ -1,6 +1,8 @@
 package com.example.tp2.repository;
-import com.example.tp2.domain.Cliente;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.tp2.domain.ej4y5.Cliente;
+
 import java.util.Optional;
 
 /*
