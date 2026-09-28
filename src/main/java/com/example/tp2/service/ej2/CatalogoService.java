@@ -40,7 +40,7 @@ public class CatalogoService {
 //ENDPOINT 2: GET /api/catalogo/buscar?-> Filtra por categoría, precio mínimo y/o precio máximo usando Streams
     
     public List<Producto> buscarProductos( String categoria , Double precioMin , Double precioMax ){
-        return productos.stream()//Transforma tu lista normal de Java en un flujo de datos (Stream) para poder aplicarle operaciones funcionales
+        return productos.stream()//Transforma la lista normal de Java en un flujo de datos (Stream) para poder aplicarle operaciones funcionales
         // Filtra por categoría solo si el parámetro no es nulo ni está vacío
         .filter(p -> categoria == null || categoria.trim().isEmpty() || p.getCategoria().equalsIgnoreCase(categoria))
        // Filtra por precio mínimo solo si el parámetro no es nulo
@@ -55,23 +55,24 @@ public class CatalogoService {
 //ENDPOINT 3: GET /api/catalogo/ordenar
     public List<Producto> ordenarProductos(String criterio, String orden){
         List<Producto> listaOrdenada = new ArrayList<>(productos);
-//1. Asignamos valores por default si los paramteros vienen vacios(/api/catalogo/ordenar/criterio="") o nullos(/api/catalogo/ordenar)
-        if(criterio == null || criterio == ""){
+    // Asignamos valores por default si los paramteros vienen vacios(/api/catalogo/ordenar/criterio="") o nullos(/api/catalogo/ordenar)
+        if (criterio == null || criterio.trim().isEmpty()) {
             criterio = "precio";
         }
-        if(orden == null || orden == ""){
-            orden= "asc";
+        if (orden == null || orden.trim().isEmpty()) {
+            orden = "asc";
         }
 
-// Declaramos el comparador inicializándolo por defecto con el precio
-        Comparator<Producto> comparador = Comparator.comparing(Producto::getPrecio);
+        Comparator<Producto> comparador;//por defecto ordena en orden asc
 
-// 2. Validamos los criterios 
-        if (criterio.equalsIgnoreCase("nombre")) {
+        if (criterio != null && criterio.equalsIgnoreCase("nombre")) {
             comparador = Comparator.comparing(Producto::getNombre);
         } 
+        else {
+            comparador = Comparator.comparing(Producto::getPrecio); 
+        }
 
- // 3. Validamos el sentido del orden
+    // Validamos el sentido del orden
         if (orden.equalsIgnoreCase("desc")) {
             comparador = comparador.reversed();
         }
@@ -85,8 +86,11 @@ public class CatalogoService {
 
 //ENDPOINT 4: POST /api/catalogo
     public Producto agregarProducto(NuevoProductoDTO productoDTO){
-        // Generamos un ID autoincremental basado en el tamaño actual de la lista
-        long nuevoId = productos.size() + 1;
+     // Buscamos el ID más alto que exista actualmente y le sumamos 1
+    long nuevoId = productos.stream()
+                            .mapToLong(Producto::getId) // Extraemos solo los IDs
+                            .max()                      // Buscamos el mayor
+                            .orElse(0L) + 1;            // Si no hay ninguno, arranca en 0 y suma 1
         // Mapeamos el DTO a nuestra entidad Producto
         Producto nuevoProducto = new Producto(
             nuevoId,

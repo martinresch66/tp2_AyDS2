@@ -32,7 +32,7 @@ public class CatalogoController {
 
     
     private final CatalogoService catalogoService;
-/*INYECCION DE DEPENDENCIA */
+    /*INYECCION DE DEPENDENCIA */
     public CatalogoController(CatalogoService catalogoService){
         this.catalogoService = catalogoService;
     }
