@@ -1,18 +1,18 @@
-package com.example.tp2.service;
+package com.example.tp2.service.ej2;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
+
 import java.util.Comparator;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.tp2.domain.Producto;
-import com.example.tp2.dto.NuevoProductoDTO;
+import com.example.tp2.domain.ej2.Producto;
+import com.example.tp2.dto.ej2.NuevoProductoDTO;
 
-import io.swagger.v3.oas.annotations.servers.Server;
+
 
 @Service 
 public class CatalogoService {
@@ -103,7 +103,7 @@ public class CatalogoService {
 
 //ENDPOINT 5: PUT /api/catalogo/{id}/stock?cantidad=5
 
-    public Producto actualizartock(long id , int cantidad){
+    public Producto actualizarStock(long id , int cantidad){
         Producto producto = productos.stream()
         .filter(p->p.getId() == id)
         //como a lo sumo encuentra un id toma ese resultadoy lo envuelve en algo llamado un Optional (una cajita que puede contener el producto o venir vacía si no encontró a nadie)

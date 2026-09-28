@@ -1,4 +1,4 @@
-package com.example.tp2.service;
+package com.example.tp2.service.ej3_6;
 
 import java.util.Map;
 
@@ -8,8 +8,8 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.example.tp2.dto.FrankfurterResponseDTO;
-import com.example.tp2.dto.RespuestaConvertorDTO;
+import com.example.tp2.dto.ej3_6.FrankfurterResponseDTO;
+import com.example.tp2.dto.ej3_6.RespuestaConvertorDTO;
 
 @Service
 public class ConversorDivisasService {

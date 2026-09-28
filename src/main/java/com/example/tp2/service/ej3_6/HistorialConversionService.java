@@ -1,9 +1,13 @@
-package com.example.tp2.service;
+package com.example.tp2.service.ej3_6;
 import com.example.tp2.dto.*;
+import com.example.tp2.dto.ej3_6.HistorialItemDTO;
+import com.example.tp2.dto.ej3_6.RespuestaConvertorDTO;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import com.example.tp2.repository.HistorialConversionRepository;
+
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import com.example.tp2.domain.*;
@@ -24,8 +28,8 @@ public class HistorialConversionService {
     // ENDPOINT 1: POST /api/divisas/consultar
     public RespuestaConvertorDTO consultarYGuardar(double monto, String origen, String destino) {
 
-        // 1. Reusamos TAL CUAL tu servicio del Ejercicio 3, sin tocarlo
-        RespuestaConvertorDTO resultado = conversorDivisasService.convertir(monto, origen, destino);
+        // 1. Reusamos el ejercicio 3
+        RespuestaConvertorDTO resultado =conversorDivisasService.convertir(monto, origen, destino);
 
         // 2. Armamos la entidad a partir del resultado obtenido
         HistorialConversion historial = new HistorialConversion();
@@ -39,7 +43,7 @@ public class HistorialConversionService {
         // 3. Guardamos en la base de datos
         historialConversionRepository.save(historial);
 
-        // 4. Devolvemos la misma info de la consulta actual (tal como pide el enunciado)
+        // 4. Devolvemos la misma info de la consulta actual 
         return resultado;
     }
 

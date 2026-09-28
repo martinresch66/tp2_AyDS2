@@ -1,4 +1,4 @@
-package com.example.tp2.controller;
+package com.example.tp2.controller.ej1;
 
 import java.util.List;
 
@@ -12,16 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.example.tp2.dto.ApiResponse;
-import com.example.tp2.dto.DescuentoDTO;
-import com.example.tp2.dto.EstadisticasDTO;
-import com.example.tp2.dto.VentaDTO;
-import com.example.tp2.service.VentaService;
+import com.example.tp2.dto.ej1.DescuentoDTO;
+import com.example.tp2.dto.ej1.EstadisticasDTO;
+import com.example.tp2.dto.ej1.VentaDTO;
+import com.example.tp2.service.ej1.VentaService;
+
+import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import jakarta.validation.Valid;
 
 /*Este controlador se va a encargar de recibir la 
-lista de ventas, activar el "policía" de 
+lista de ventas, activar la
 validación (@Valid), llamar a los métodos de VentaService 
 y empaquetar todo dentro de la ApiResponse */
 @RestController 
@@ -37,6 +39,9 @@ public class VentaController {
 
     // ENDPOINT 1: POST /api/ventas/estadisticas
     @PostMapping("/estadisticas")
+    @Operation(summary = "Devuelve las estadisticas de una lista de ventas",
+                description=""
+    )
     public ResponseEntity<ApiResponse<EstadisticasDTO>> obtenerEstadisticas(@Valid @RequestBody List<VentaDTO> ventas){
         //1. Llamo al servicio para que realize los calculos
         EstadisticasDTO estadisticas = ventaService.calcularEstadistica(ventas);

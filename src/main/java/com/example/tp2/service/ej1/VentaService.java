@@ -1,13 +1,13 @@
-package com.example.tp2.service;
+package com.example.tp2.service.ej1;
 
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.tp2.dto.DescuentoDTO;
-import com.example.tp2.dto.EstadisticasDTO;
-import com.example.tp2.dto.VentaConDescuentoDTO;
-import com.example.tp2.dto.VentaDTO;
+import com.example.tp2.dto.ej1.DescuentoDTO;
+import com.example.tp2.dto.ej1.EstadisticasDTO;
+import com.example.tp2.dto.ej1.VentaConDescuentoDTO;
+import com.example.tp2.dto.ej1.VentaDTO;
 
 /* esta capa es la encargada de la
  lógica de negocio. Aquí no manejamos nada de 

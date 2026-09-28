@@ -1,4 +1,4 @@
-package com.example.tp2.dto;
+package com.example.tp2.dto.ej1;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;

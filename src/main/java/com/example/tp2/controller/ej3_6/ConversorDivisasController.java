@@ -1,4 +1,4 @@
-package com.example.tp2.controller;
+package com.example.tp2.controller.ej3_6;
 
 
 
@@ -14,9 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 import com.example.tp2.dto.ApiResponse;
-import com.example.tp2.dto.HistorialItemDTO;
-import com.example.tp2.dto.RespuestaConvertorDTO;
+import com.example.tp2.dto.ej3_6.HistorialItemDTO;
+import com.example.tp2.dto.ej3_6.RespuestaConvertorDTO;
 import com.example.tp2.service.*;
+import com.example.tp2.service.ej3_6.ConversorDivisasService;
+import com.example.tp2.service.ej3_6.HistorialConversionService;
 
 @RestController
 @RequestMapping("/api/divisas")

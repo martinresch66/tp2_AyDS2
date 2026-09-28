@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.example.tp2.dto.ApiResponse;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.ConstraintViolation;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -118,5 +122,39 @@ public ResponseEntity<ApiResponse<Object>> handleEmailDuplicado(EmailDuplicadoEx
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 }
 
+// =========================================================================
+    // MÉTODO 5: Atrapa errores de validación en Listas u objetos directos 
+    // (ConstraintViolationException)
+    // =========================================================================
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ApiResponse<Map<String, String>>> handleConstraintViolationException(ConstraintViolationException ex) {
+        
+        Map<String, String> errores = new HashMap<>();
+        
+        // Recorremos cada violación a las reglas de validación
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            
+            // El property path suele venir con el nombre del método, ej: "obtenerEstadisticas.ventas[0].precioUnitario"
+            String rutaCompleta = violation.getPropertyPath().toString();
+            
+            // Extraemos solo la última parte (ej: "ventas[0].precioUnitario") para que sea más legible
+            String campo = rutaCompleta;
+            if(rutaCompleta.contains(".")) {
+                campo = rutaCompleta.substring(rutaCompleta.indexOf(".") + 1);
+            }
+            
+            String mensaje = violation.getMessage();
+            
+            errores.put(campo, mensaje);
+        }
+
+        ApiResponse<Map<String, String>> response = new ApiResponse<>(
+            HttpStatus.BAD_REQUEST.value(), // Devolvemos 400 correctamente
+            "Error de validación en la lista de datos",
+            errores
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
     
 }

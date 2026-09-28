@@ -1,4 +1,4 @@
-package com.example.tp2.controller;
+package com.example.tp2.controller.ej4_5;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.tp2.service.PedidoService;
 import com.example.tp2.dto.ApiResponse;
 import com.example.tp2.dto.ej4y5.PedidoRespuestaDTO;
+import com.example.tp2.service.ej4_5.PedidoService;
 
 @RestController
 @RequestMapping("/api/pedidos")
@@ -27,8 +27,6 @@ public class PedidoController {
      *
      * required = false --> si el cliente no manda ese parámetro,
      * Spring lo deja en null en vez de tirar error 400 por "falta parámetro".
-     * Esto es justo lo que necesitamos, porque el enunciado dice
-     * "todos son opcionales".
      */
     @GetMapping("/buscar")
     public ResponseEntity<ApiResponse<List<PedidoRespuestaDTO>>> buscarPedidos(

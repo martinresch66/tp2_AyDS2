@@ -1,4 +1,4 @@
-package com.example.tp2.controller;
+package com.example.tp2.controller.ej2;
 
 import java.util.List;
 
@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.example.tp2.domain.ej2.Producto;
 import com.example.tp2.dto.ApiResponse;
-import com.example.tp2.dto.NuevoProductoDTO;
-import com.example.tp2.domain.Producto;
-import com.example.tp2.service.CatalogoService;
+import com.example.tp2.dto.ej2.NuevoProductoDTO;
+import com.example.tp2.service.ej2.CatalogoService;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -130,7 +130,7 @@ public class CatalogoController {
         @RequestParam int cantidad //Extrae un parámetro que viaja despues del signo de interrogacion (?) en la URL
     ){
         // Llamamos al servicio para procesar la actualización
-        Producto productoActualizado = catalogoService.actualizartock(id, cantidad);
+        Producto productoActualizado = catalogoService.actualizarStock(id, cantidad);
 
         // Armamos la respuesta estándar con HTTP 200 OK
         ApiResponse<Producto> response = new ApiResponse<>(

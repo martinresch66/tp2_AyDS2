@@ -1,4 +1,4 @@
-package com.example.tp2.domain;
+package com.example.tp2.domain.ej2;
 
 public class Producto {
     
