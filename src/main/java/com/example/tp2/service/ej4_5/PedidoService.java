@@ -18,7 +18,7 @@ public class PedidoService {
      private final PedidoRepository pedidoRepository;
     private final DetallePedidoRepository detallePedidoRepository;
 
-    // Inyección por constructor, mismo patrón que en ClienteService
+
     public PedidoService(PedidoRepository pedidoRepository,
                           DetallePedidoRepository detallePedidoRepository) {
         this.pedidoRepository = pedidoRepository;

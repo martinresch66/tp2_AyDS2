@@ -9,13 +9,13 @@ import java.time.LocalDateTime;
 public class Cliente {
 
     @Id//clave primaria de la tabla
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// HIbernante no gnera el valor del id sino que lo genera la bd
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// genera el id
     private Integer Id;
 
     @Column ( nullable = false, length = 100)
     private String nombre;
 
-    
+
     @Column ( nullable = false, length = 100)
     private String apellido;
 
@@ -66,13 +66,5 @@ public class Cliente {
     }public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-
-   
-
-
-
-
-
-
     
 }

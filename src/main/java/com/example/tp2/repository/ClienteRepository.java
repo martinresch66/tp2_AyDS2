@@ -30,10 +30,11 @@ public interface ClienteRepository extends JpaRepository<Cliente,Integer>{
      
            SELECT * FROM clientes WHERE email = ?
      */
+    Optional<Cliente> findByEmail(String email);
     /* 
      Devuelve Optional<Cliente>  porque
       puede que NO exista ningún cliente con ese email 
      */
-    Optional<Cliente> findByEmail(String email);
+    
     
 }

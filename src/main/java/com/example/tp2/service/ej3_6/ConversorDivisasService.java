@@ -22,8 +22,7 @@ public class ConversorDivisasService {
             .build();//paso final del builder, toma toda la configuracion dada y te devuelve el objeto RestClient
 
     // ENDPOINT 1: GET /api/divisas/convertir
-    //parametros ya validados en Controller
-    public RespuestaConvertorDTO convertir(double monto, String origen, String destino) {
+    public RespuestaConvertorDTO convertir(double monto, String origen, String destino) { //parametros ya validados en Controller
 
         FrankfurterResponseDTO respuestaExterna;
 

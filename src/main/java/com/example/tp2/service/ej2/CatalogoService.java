@@ -90,7 +90,7 @@ public class CatalogoService {
     long nuevoId = productos.stream()
                             .mapToLong(Producto::getId) // Extraemos solo los IDs
                             .max()                      // Buscamos el mayor
-                            .orElse(0L) + 1;            // Si no hay ninguno, arranca en 0 y suma 1
+                            .orElse(0L) + 1;      // Si no hay ninguno, arranca en 0 y suma 1
         // Mapeamos el DTO a nuestra entidad Producto
         Producto nuevoProducto = new Producto(
             nuevoId,

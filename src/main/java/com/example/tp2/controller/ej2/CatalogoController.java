@@ -109,7 +109,7 @@ public class CatalogoController {
     @Operation (summary = "Insertar producto",description = "Insertar productos a la lista de productos")
     @PostMapping
     public ResponseEntity<ApiResponse<Producto>> agregarProducto(@Valid @RequestBody NuevoProductoDTO productoDTO){
-        // Llamamos al servicio para que procese el guardado
+    
         Producto productoCreado = catalogoService.agregarProducto(productoDTO);
 
         // Armamos la respuesta estándar con HTTP 201 Created

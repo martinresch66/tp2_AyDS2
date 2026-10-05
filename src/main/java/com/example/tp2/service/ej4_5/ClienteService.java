@@ -11,7 +11,7 @@ import com.example.tp2.exception.EmailDuplicadoException;
 @Service 
 public class ClienteService {
 
-    private final ClienteRepository clienteRepository;/*un espacio de memoria que va a existir en cada objeto ClienteService que se cree, para guardar una referencia al ClienteRepository */
+    private final ClienteRepository clienteRepository;
 
     public ClienteService(ClienteRepository clienteRepository) {
         this.clienteRepository = clienteRepository;

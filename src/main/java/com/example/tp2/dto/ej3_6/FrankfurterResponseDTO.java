@@ -7,7 +7,7 @@ import java.util.Map;
 {"amount":100.0,"base":"USD","date":"2026-09-21","rates":{"EUR":87.03}}
 */
 public class FrankfurterResponseDTO {
-     private double amount;
+    private double amount;
     private String base;
     private String date;
     /*Uso Map<String, Double> para rates porque la clave ("ARS", "EUR", etc.) cambia según qué moneda destino se pidio, no es un campo fijo */

@@ -24,8 +24,8 @@ import com.example.tp2.service.ej3_6.HistorialConversionService;
 @RequestMapping("/api/divisas")
 public class ConversorDivisasController {
 
-     private final ConversorDivisasService conversorDivisasService;
-    private final HistorialConversionService historialConversionService;
+    private final ConversorDivisasService conversorDivisasService;//ej3
+    private final HistorialConversionService historialConversionService;//ej6
 
     public ConversorDivisasController(ConversorDivisasService conversorDivisasService,
                                        HistorialConversionService historialConversionService) { 
